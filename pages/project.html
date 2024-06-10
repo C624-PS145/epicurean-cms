@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EpicureanCMSbase</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script>
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = './../index.html';
+        }
+    </script>
+</head>
+<body>
+
+   
+    
+    <aside class="sidebar">
+        <div class="sidebar-header">
+          <h3> <a href="/">Menu</a></h3>
+        </div>
+        <nav class="menu">
+          <ul>
+            <li><a href="#" id="wisataKulinerLink">Wisata Kuliner</a></li>
+            <li><a href="#" id="foodsCmsLink">Menu Makanan</a></li>
+            <li><a href="#" id="drinkCmsLink">Menu Minuman</a></li>
+            <li><a href="#" id="reviewCmsLink">Review</a></li>
+            <li><a href="#" id="artikelCmsLink">Artikel</a></li>
+          </ul>
+        </nav>
+        <div class="sidebar-footer">
+          <button id="logoutBtn">Logout</button>
+        </div>
+      </aside>
+
+
+    <main>
+
+
+
+        <div id="content">
+            <img src="../Images/epicurean.png" alt="Epicurean CMS Image">
+            <h2>Welcome to Epicurean Content Management System</h2>
+            <p>
+                Selamat datang di Epicurean Content Management System (CMS), platform yang dirancang khusus untuk mengelola dan mempromosikan kekayaan kuliner Madura. Dengan CMS ini, Anda dapat dengan mudah mengelola berbagai jenis data terkait wisata kuliner, mulai dari makanan dan minuman hingga ulasan pengunjung. 
+            </p>
+        </div>
+        
+
+    <!-- ! CMS UNTUK WISATA KULINER -->
+
+    <div id="wisataKulinerContent" style="display: none;">
+        <h2>Wisata Kuliner Content Management System </h2>
+        <p>Kelola data wisata kuliner dapat melakukan penambahan data update serta delete </p>
+            <ul id="wisataList"></ul>
+                <form id="updateForm" style="display:none;" enctype="multipart/form-data">
+                    <input type="hidden" id="wisataId" name="id">
+                    <label for="nama_tempat">Nama Tempat:</label>
+                    <input type="text" id="nama_tempat" name="nama_tempat"><br>
+                    <label for="alamat">Alamat:</label>
+                    <input type="text" id="alamat" name="alamat"><br>
+                    <label for="kabupaten">Kabupaten:</label>
+                    <input type="text" id="kabupaten" name="kabupaten"><br>
+                    <label for="deskripsi">Deskripsi:</label><br>
+                    <textarea id="deskripsi" name="deskripsi"></textarea><br>
+                    <label for="jam_operasional">Jam Operasional:</label>
+                    <input type="text" id="jam_operasional" name="jam_operasional"><br>
+                    
+                    <label for="link_wa">No Whatsapp</label>
+                    <input type="text" id="link_wa" name="link_wa"><br>
+
+                    <label for="link_maps">Link Maps:</label>
+                    <input type="text" id="link_maps" name="link_maps"><br>
+                    <label for="fasilitas">Fasilitas:</label>
+                    <input type="text" id="fasilitas" name="fasilitas"><br>
+                    
+                    <label for="gambar_katalog">Gambar Katalog:</label>
+                    <input type="file" id="gambar_katalog" name="gambar_katalog"><br>
+                    <img id="preview_gambar_katalog" src="" alt="Preview Gambar Katalog"><br>
+                    <label for="galeri1">Galeri 1:</label>
+                    <input type="file" id="galeri1" name="galeri1"><br>
+                    <img id="preview_galeri1" src="" alt="Preview Galeri 1"><br>
+                    <label for="galeri2">Galeri 2:</label>
+                    <input type="file" id="galeri2" name="galeri2"><br>
+                    <img id="preview_galeri2" src="" alt="Preview Galeri 2"><br>
+                    <label for="galeri3">Galeri 3:</label>
+                    <input type="file" id="galeri3" name="galeri3"><br>
+                    <img id="preview_galeri3" src="" alt="Preview Galeri 3"><br>
+                    <label for="galeri4">Galeri 4:</label>
+                    <input type="file" id="galeri4" name="galeri4"><br>
+                    <img id="preview_galeri4" src="" alt="Preview Galeri 4"><br>
+                    <button type="submit">Update</button>
+                </form>
+    
+        <h3>Tambah Wisata Kuliner</h3>
+        <form id="addForm" enctype="multipart/form-data">
+            <label for="nama_tempat">Nama Tempat:</label>
+            <input type="text" id="nama_tempat" name="nama_tempat"><br>
+            <label for="alamat">Alamat:</label>
+            <input type="text" id="alamat" name="alamat"><br>
+            <label for="kabupaten">Kabupaten:</label>
+            <input type="text" id="kabupaten" name="kabupaten"><br>
+            <label for="deskripsi">Deskripsi:</label><br>
+            <textarea id="deskripsi" name="deskripsi"></textarea><br>
+            <label for="jam_operasional">Jam Operasional:</label>
+            <input type="text" id="jam_operasional" name="jam_operasional"><br>
+            <label for="link_wa">No Whatsapp</label>
+            <input type="text" id="link_wa" name="link_wa"><br>
+            <label for="link_maps">Link Maps:</label>
+            <input type="text" id="link_maps" name="link_maps"><br>
+            <label for="fasilitas">Fasilitas:</label>
+            <input type="text" id="fasilitas" name="fasilitas"><br>
+            <label for="gambar_katalog">Gambar Katalog:</label>
+            <input type="file" id="gambar_katalog" name="gambar_katalog"><br>
+            <label for="galeri1">Galeri 1:</label>
+            <input type="file" id="galeri1" name="galeri1"><br>
+            <label for="galeri2">Galeri 2:</label>
+            <input type="file" id="galeri2" name="galeri2"><br>
+            <label for="galeri3">Galeri 3:</label>
+            <input type="file" id="galeri3" name="galeri3"><br>
+             <label for="galeri4">Galeri 4:</label>
+            <input type="file" id="galeri4" name="galeri4"><br>
+            <button type="submit">Tambah</button>
+        </form>
+    </div>
+
+    <!-- ! CMS UNTUK MAKANAN -->
+    <div id="foodsCmsContent" style="display: none;">
+        <h2>Foods Content Management System</h2>
+        <p>Kelola data makanan pada setiap wisata kuliner dapat membuat data baru update dan delete</p>
+
+         <!-- Dropdown untuk memilih tempat wisata kuliner -->
+    <select id="selectWisataKuliner"></select>
+
+    <!-- Form untuk menambahkan makanan -->
+    <form id="addFoodForm">
+        <label for="namaMakanan">Nama Makanan:</label><br>
+        <input type="text" id="namaMakanan" name="namaMakanan" required><br>
+        <label for="harga">Harga:</label><br>
+        <input type="number" id="harga" name="harga" required><br>
+        <button type="submit">Tambahkan Makanan</button>
+    </form>
+
+    <!-- Form untuk mengedit makanan -->
+    <form id="editFoodForm" style="display: none;">
+        <label for="editNamaMakanan">Nama Makanan:</label><br>
+        <input type="text" id="editNamaMakanan" name="editNamaMakanan" required><br>
+        <label for="editHarga">Harga:</label><br>
+        <input type="number" id="editHarga" name="editHarga" required><br>
+        <button type="submit">Simpan Perubahan</button>
+        <button type="button" id="cancelEdit">Batal</button>
+    </form>
+
+    <!-- Daftar makanan -->
+    <ul id="foodList"></ul>
+
+    </div>
+
+   
+
+
+    <!-- !CMS UNTUK MINUMAN -->
+    <div id="drinkCmsContent" style="display: none;">
+        <h2>Drink Content Management System</h2>
+        <p>Kelola data minuman pada setiap wisata kuliner dapat membuat data baru update dan delete</p>
+
+        <!-- Dropdown untuk memilih tempat wisata kuliner -->
+    <select id="selectWisataKuliner2"></select>
+
+    <!-- Form untuk menambahkan minuman -->
+    <form id="addDrinkForm">
+        <label for="namaMinuman">Nama Minuman:</label><br>
+        <input type="text" id="namaMinuman" name="namaMinuman" required><br>
+        <label for="harga">Harga:</label><br>
+        <input type="number" id="harga" name="harga" required><br>
+        <button type="submit">Tambahkan Minuman</button>
+    </form>
+
+    <!-- Form untuk mengedit minuman -->
+    <form id="editDrinkForm" style="display: none;">
+        <label for="editNamaMinuman">Nama Minuman:</label><br>
+        <input type="text" id="editNamaMinuman" name="editNamaMinuman" required><br>
+        <label for="editHarga">Harga:</label><br>
+        <input type="number" id="editHarga" name="editHarga" required><br>
+        <button type="submit">Simpan Perubahan</button>
+        <button type="button" id="cancelEdit">Batal</button>
+    </form>
+
+    <!-- Daftar minuman -->
+    <ul id="drinkList"></ul>
+    </div>
+
+
+    <!-- ! CMS REVIEW -->
+
+
+    <div id="reviewCmsContent" style="display: none;">
+        <h3>Review Content Management System</h3>
+        <p>Kelola data review pengguna baik melakukan delete by id / unit wisata kuliner</p>
+
+        
+    <!-- Dropdown untuk memilih wisata kuliner -->
+    <select id="selectWisataKuliner3"></select>
+
+    <!-- Form untuk menambah ulasan baru -->
+    <form id="addReviewForm">
+        <label for="namaPengulas">Nama Pengulas:</label><br>
+        <input type="text" id="namaPengulas" name="namaPengulas" required><br>
+        <label for="ulasan">Ulasan:</label><br>
+        <textarea id="ulasan" name="ulasan" required></textarea><br>
+        <label for="rating">Rating:</label><br>
+        <input type="number" id="rating" name="rating" required><br>
+        <button type="submit">Tambahkan Ulasan</button>
+    </form>
+
+    <!-- Daftar ulasan -->
+    <ul id="reviewList"></ul>
+
+    <button id="deleteAllReviews">Hapus Semua Ulasan</button>
+    </div>
+
+
+    <!-- ! CMS ARTIKEL -->
+
+    <div id="artikelCmsContent" style="display: none;">
+    <h3>Artikel Content Management System</h3>
+    <p>Kelola data artikel epicurean</p>
+    <form id="addArticleForm" enctype="multipart/form-data">
+        <label for="judul">Judul:</label><br>
+        <input type="text" id="judul" name="judul" required><br>
+        <label for="deskripsi">Deskripsi:</label><br>
+        <textarea id="deskripsi" name="deskripsi" required></textarea><br>
+        <label for="isi">Isi:</label><br>
+        <textarea id="isi" name="isi" required></textarea><br>
+        <label for="penulis">Penulis:</label><br>
+        <input type="text" id="penulis" name="penulis" required><br>
+        <label for="gambar_artikel">Gambar Artikel:</label><br>
+        <input type="file" id="gambar_artikel" name="gambar_artikel"><br>
+        <button type="submit">Tambahkan Artikel</button>
+    </form>
+
+    <ul id="articleList"></ul>
+    </div>
+
+
+    </main>
+
+    
+    <script src="./../javascript/project.js"></script>
+</body>
+</html>
