@@ -1,0 +1,577 @@
+body{
+    font-family: "Poppins",sans-serif;
+}
+
+// Variables
+$sidebar-bg-color: #202124;
+$sidebar-text-color: #ffffff;
+$sidebar-header-bg-color: #2c2f33;
+$sidebar-footer-bg-color: #2c2f33;
+$sidebar-footer-btn-bg-color: #ff6b6b;
+$sidebar-footer-btn-hover-bg-color: #ff4d4d;
+
+// Styles
+.sidebar {
+  width: 300px;
+  height: 100vh;
+  background-color: $sidebar-bg-color;
+  color: $sidebar-text-color;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow-y: auto;
+  transition: width 0.3s ease;
+
+  &-header {
+    background-color: $sidebar-header-bg-color;
+    padding: 20px;
+    text-align: center;
+    h3 {
+      margin: 0;
+      a{
+        text-decoration: none;
+        color: $sidebar-text-color;
+      }
+    }
+  }
+
+  &-footer {
+    background-color: $sidebar-footer-bg-color;
+    padding: 20px;
+    text-align: center;
+    button {
+      background-color: $sidebar-footer-btn-bg-color;
+      color: #ffffff;
+      padding: 10px 20px;
+      border: none;
+      font-size: 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      &:hover {
+        background-color: $sidebar-footer-btn-hover-bg-color;
+      }
+    }
+  }
+
+  .menu {
+    ul {
+      list-style: none;
+      padding: 0;
+      li {
+        a {
+          display: block;
+          padding: 15px 20px;
+          color: inherit;
+          cursor: pointer;
+          text-decoration: none;
+          transition: background-color 0.3s ease;
+          &:hover {
+            background-color: darken($sidebar-bg-color, 10%);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Main Content
+main {
+  margin-left: 300px; // Adjust according to sidebar width
+  padding: 20px;
+}
+
+#content {
+    text-align: center;
+    margin-top: 50px;
+    
+  
+    img {
+      max-width: 40%;
+      border-radius: 10px;
+  
+    }
+  
+    h2 {
+      margin-top: 20px;
+      font-size: 24px;
+      color: #333333;
+    }
+  
+    p {
+      margin-top: 15px;
+      font-size: 16px;
+      color: #666666;
+      line-height: 1.6;
+    }
+  }
+  #wisataKulinerContent {
+    display: none;
+    padding: 20px;
+  
+    h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+  
+    h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+  
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    
+  
+    ul#wisataList {
+      list-style-type: none;
+      padding: 0;
+  
+      li {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  
+    form {
+      margin-bottom: 20px;
+
+      
+  
+      label {
+        font-size: 16px;
+        margin-bottom: 5px;
+        display: block;
+      }
+  
+      input[type="text"],
+      textarea {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #fff;
+      }
+  
+      input[type="file"] {
+        margin-top: 5px;
+      }
+  
+      img {
+        margin-left: 10%;
+        max-width: 346px;
+        width: 100%;
+        height: 207px;
+        object-fit: cover;
+        border-radius: 20px;
+        margin-top: 10px;
+      }
+  
+      button[type="submit"] {
+        margin-top: 20px;
+        padding: 8px 13px;
+        font-size: 14px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: $sidebar-footer-btn-bg-color;
+        color: #fff;
+        transition: background-color 0.3s ease;
+  
+        &:hover {
+          background-color: $sidebar-footer-btn-hover-bg-color;
+        }
+      }
+    }
+  }
+  
+
+#foodsCmsContent {
+    display: none;
+    padding: 20px;
+    
+    h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+   
+  
+    select {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #fff;
+    }
+  
+    form {
+      margin-bottom: 20px;
+      
+      label {
+        font-size: 16px;
+        margin-bottom: 5px;
+        display: block;
+      }
+  
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #fff;
+      }
+  
+      button {
+        margin-top: 30px;
+        padding: 10px 20px;
+        font-size: 14px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: $sidebar-footer-btn-bg-color;
+        color: #fff;
+        transition: background-color 0.3s ease;
+  
+        &:hover {
+          background-color: $sidebar-footer-btn-hover-bg-color;
+        }
+      }
+    }
+  
+    ul#foodList {
+      list-style-type: none;
+      padding: 0;
+  
+      li {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+  
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+  #drinkCmsContent {
+    display: none;
+    padding: 20px;
+  
+    h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+  
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+  
+    select {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+      cursor: pointer;
+    }
+  
+    form {
+      margin-bottom: 20px;
+  
+      label {
+        font-size: 16px;
+        margin-bottom: 5px;
+        display: block;
+      }
+  
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #fff;
+      }
+  
+      button {
+        padding: 10px 20px;
+        font-size: 14px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: $sidebar-footer-btn-bg-color;
+        color: #fff;
+        transition: background-color 0.3s ease;
+  
+        &:hover {
+          background-color: $sidebar-footer-btn-hover-bg-color;
+        }
+      }
+    }
+  
+    ul#drinkList {
+      list-style-type: none;
+      padding: 0;
+  
+      li {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+  
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+  #reviewCmsContent {
+    display: none;
+    padding: 20px;
+  
+    h3 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+  
+    select {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+    }
+  
+    form {
+      margin-bottom: 20px;
+  
+      label {
+        font-size: 16px;
+        margin-bottom: 5px;
+        display: block;
+      }
+  
+      input[type="text"],
+      textarea,
+      input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #fff;
+      }
+  
+      button[type="submit"],
+      button#deleteAllReviews {
+        padding: 10px 20px;
+        font-size: 14px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: $sidebar-footer-btn-bg-color;
+        color: #fff;
+        transition: background-color 0.3s ease;
+  
+        &:hover {
+          background-color: $sidebar-footer-btn-hover-bg-color;
+        }
+      }
+    }
+  
+    ul#reviewList {
+      list-style-type: none;
+      padding: 0;
+  
+      li {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+  
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+  
+  // Menggunakan warna merah dan hitam sebagai variabel
+$red: #ff4d4d;
+$black: #000000;
+
+// Style untuk container login
+.login-container {
+  text-align: center;
+  margin: 100px auto;
+  width: 300px;
+  
+  h2 {
+    color: $red;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  form {
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: $black;
+    }
+    
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid $black;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 12px;
+    }
+    
+    button[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: $red;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      
+      &:hover {
+        background-color: darken($red, 10%);
+      }
+    }
+  }
+  
+  #errorMsg {
+    color: $red;
+    display: none;
+  }
+}
+#artikelCmsContent {
+  display: none;
+  padding: 20px;
+  
+  // Gaya untuk judul dan paragraf
+  h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #666;
+  }
+
+  // Gaya untuk formulir tambah artikel
+  form {
+    margin-bottom: 20px;
+
+    label {
+      font-size: 16px;
+      margin-bottom: 5px;
+      display: block;
+      color: #333;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+      box-sizing: border-box;
+    }
+
+    input[type="file"] {
+      margin-top: 5px;
+      padding: 5px 0;
+      font-size: 16px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    button[type="submit"] {
+      padding: 10px 20px;
+      margin-top: 10px;
+      font-size: 14px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: $sidebar-footer-btn-bg-color;
+      color: #fff;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: $sidebar-footer-btn-hover-bg-color;
+      }
+    }
+  }
+
+  // Gaya untuk daftar artikel
+  ul#articleList {
+    list-style-type: none;
+    padding: 0;
+
+    li {
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &:hover {
+        transform: translateY(-2px);
+      }
+    }
+  }
+}
