@@ -77,3 +77,124 @@ document.addEventListener("DOMContentLoaded", function() {
         window.location.href = './../index.html';
     });
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Function to show alert
+    function showAlert(message) {
+        alert(message);
+    }
+
+    // Handle form submission for adding new wisata kuliner
+    document.getElementById('addForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        let formData = new FormData(this);
+        fetch('http://localhost:3000/api/detailwisatakuliner', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            showAlert('Wisata kuliner berhasil ditambahkan!');
+            // Reset the form after successful submission
+            document.getElementById('addForm').reset();
+            document.getElementById('preview_gambar_katalog').src = '';
+            document.getElementById('preview_galeri1').src = '';
+            document.getElementById('preview_galeri2').src = '';
+            document.getElementById('preview_galeri3').src = '';
+            document.getElementById('preview_galeri4').src = '';
+            // Reload the page after successful submission
+            location.reload();
+        })
+        .catch(error => {
+            showAlert('Error: ' + error);
+        });
+    });
+
+    fetch('http://localhost:3000/api/listallwisatakuliner')
+    .then(response => response.json())
+    .then(data => {
+        const wisataList = document.getElementById('wisataList');
+        data.forEach(wisata => {
+            wisataList.innerHTML += `<li data-id="${wisata.id}">${wisata.nama_tempat} <button class="deleteBtn" data-id="${wisata.id}">Delete</button></li>`;
+        });
+
+        wisataList.querySelectorAll('li').forEach(li => {
+            li.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                fetch(`http://localhost:3000/api/wisatakuliner/${id}`)
+                .then(response => response.json())
+                .then(wisata => {
+                    document.getElementById('wisataId').value = wisata.id;
+                    document.getElementById('nama_tempat').value = wisata.nama_tempat;
+                    document.getElementById('alamat').value = wisata.alamat;
+                    document.getElementById('kabupaten').value = wisata.kabupaten;
+                    document.getElementById('deskripsi').value = wisata.deskripsi;
+                    document.getElementById('jam_operasional').value = wisata.jam_operasional;
+                    document.getElementById('link_wa').value = wisata.link_wa;
+                    document.getElementById('link_maps').value = wisata.link_maps;
+                    document.getElementById('fasilitas').value = wisata.fasilitas;
+
+                    // Set image src based on data from API
+                    document.getElementById('preview_gambar_katalog').src = wisata.gambar_katalog;
+                    document.getElementById('preview_galeri1').src = wisata.galeri1;
+                    document.getElementById('preview_galeri2').src = wisata.galeri2;
+                    document.getElementById('preview_galeri3').src = wisata.galeri3;
+                    document.getElementById('preview_galeri4').src = wisata.galeri4;
+
+                    // Show images
+                    document.getElementById('preview_gambar_katalog').style.display = 'block';
+                    document.getElementById('preview_galeri1').style.display = 'block';
+                    document.getElementById('preview_galeri2').style.display = 'block';
+                    document.getElementById('preview_galeri3').style.display = 'block';
+                    document.getElementById('preview_galeri4').style.display = 'block';
+                    document.getElementById('updateForm').style.display = 'block';
+                })
+                .catch(error => {
+                    showAlert('Error: ' + error);
+                });
+            });
+        });
+
+        // Add click event to delete button
+        wisataList.querySelectorAll('.deleteBtn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                fetch(`http://localhost:3000/api/wisatakuliner/${id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    showAlert('Wisata kuliner berhasil dihapus!');
+                    // Reload the page after successful deletion
+                    location.reload();
+                })
+                .catch(error => {
+                    showAlert('Error: ' + error);
+                });
+            });
+        });
+    })
+    .catch(error => {
+        showAlert('Error: ' + error);
+    });
+
+    // Handle Update
+    document.getElementById('updateForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        let formData = new FormData(this);
+        let id = formData.get('id');
+        fetch(`http://localhost:3000/api/wisatakuliner/${id}`, {
+            method: 'PUT',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            showAlert('Wisata kuliner berhasil diperbarui!');
+            // Reload the page after successful update
+            location.reload();
+        })
+        .catch(error => {
+            showAlert('Error: ' + error);
+        });
+    });
+});
