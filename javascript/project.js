@@ -62,3 +62,18 @@
           e.preventDefault();
           showContent('artikelCms');
       });
+
+// project.js
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Ambil tombol logout
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    // Tambahkan event listener untuk tombol logout
+    logoutBtn.addEventListener('click', function() {
+        // Hapus status login dari localStorage
+        localStorage.removeItem('isLoggedIn');
+        // Redirect ke halaman login setelah logout
+        window.location.href = './../index.html';
+    });
+});
