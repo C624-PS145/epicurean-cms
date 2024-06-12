@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('addForm').addEventListener('submit', function(event) {
         event.preventDefault();
         let formData = new FormData(this);
-        fetch('http://localhost:3000/api/detailwisatakuliner', {
+        fetch('https://epicurean-backend-umber.vercel.app/api/detailwisatakuliner', {
             method: 'POST',
             body: formData
         })
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    fetch('http://localhost:3000/api/listallwisatakuliner')
+    fetch('https://epicurean-backend-umber.vercel.app/api/listallwisatakuliner')
     .then(response => response.json())
     .then(data => {
         const wisataList = document.getElementById('wisataList');
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function() {
         wisataList.querySelectorAll('li').forEach(li => {
             li.addEventListener('click', function() {
                 const id = this.getAttribute('data-id');
-                fetch(`http://localhost:3000/api/wisatakuliner/${id}`)
+                fetch(`https://epicurean-backend-umber.vercel.app/api/wisatakuliner/${id}`)
                 .then(response => response.json())
                 .then(wisata => {
                     document.getElementById('wisataId').value = wisata.id;
@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function() {
         wisataList.querySelectorAll('.deleteBtn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const id = this.getAttribute('data-id');
-                fetch(`http://localhost:3000/api/wisatakuliner/${id}`, {
+                fetch(`https://epicurean-backend-umber.vercel.app/api/wisatakuliner/${id}`, {
                     method: 'DELETE'
                 })
                 .then(response => response.json())
@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
         let formData = new FormData(this);
         let id = formData.get('id');
-        fetch(`http://localhost:3000/api/wisatakuliner/${id}`, {
+        fetch(`https://epicurean-backend-umber.vercel.app/api/wisatakuliner/${id}`, {
             method: 'PUT',
             body: formData
         })
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fungsi untuk mengambil dan menampilkan daftar wisata kuliner
     function fetchWisataKuliner() {
-        fetch('http://localhost:3000/api/listallwisatakuliner')
+        fetch('https://epicurean-backend-umber.vercel.app/api/listallwisatakuliner')
             .then(response => response.json())
             .then(data => {
                 data.forEach(wisata => {
@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
             harga: formData.get('harga')
         };
 
-        fetch(`http://localhost:3000/api/wisatakuliner/${newData.wisata_kuliner_id}/food`, {
+        fetch(`https://epicurean-backend-umber.vercel.app/api/wisatakuliner/${newData.wisata_kuliner_id}/food`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -252,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fungsi untuk menampilkan daftar makanan berdasarkan wisata kuliner yang dipilih
     function displayFoods() {
     const selectedId = selectWisataKuliner.value;
-    fetch(`http://localhost:3000/api/wisatakuliner/${selectedId}/foods`)
+    fetch(`https://epicurean-backend-umber.vercel.app/api/wisatakuliner/${selectedId}/foods`)
         .then(response => response.json())
         .then(data => {
             foodList.innerHTML = '';
@@ -280,7 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function deleteFood(foodId) {
-    fetch(`http://localhost:3000/api/food/${foodId}`, {
+    fetch(`https://epicurean-backend-umber.vercel.app/api/food/${foodId}`, {
         method: 'DELETE'
     })
     .then(response => response.json())
@@ -312,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 harga: formData.get('editHarga')
             };
 
-            fetch(`http://localhost:3000/api/food/${food.id}`, {
+            fetch(`https://epicurean-backend-umber.vercel.app/api/food/${food.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -352,7 +352,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Fungsi untuk mengambil dan menampilkan daftar wisata kuliner
             function fetchWisataKuliner() {
-                fetch('http://localhost:3000/api/listallwisatakuliner')
+                fetch('https://epicurean-backend-umber.vercel.app/api/listallwisatakuliner')
                     .then(response => response.json())
                     .then(data => {
                         data.forEach(wisata => {
@@ -377,7 +377,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     harga: formData.get('harga')
                 };
 
-                fetch(`http://localhost:3000/api/wisatakuliner/${newData.wisata_kuliner_id}/drink`, {
+                fetch(`https://epicurean-backend-umber.vercel.app/api/wisatakuliner/${newData.wisata_kuliner_id}/drink`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -396,7 +396,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // Fungsi untuk menampilkan daftar minuman berdasarkan wisata kuliner yang dipilih
             function displayDrinks() {
                 const selectedId = selectWisataKuliner.value;
-                fetch(`http://localhost:3000/api/wisatakuliner/${selectedId}/drinks`)
+                fetch(`https://epicurean-backend-umber.vercel.app/api/wisatakuliner/${selectedId}/drinks`)
                     .then(response => response.json())
                     .then(data => {
                         drinkList.innerHTML = '';
@@ -425,7 +425,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Fungsi untuk menghapus minuman
             function deleteDrink(drinkId) {
-                fetch(`http://localhost:3000/api/drink/${drinkId}`, {
+                fetch(`https://epicurean-backend-umber.vercel.app/api/drink/${drinkId}`, {
                     method: 'DELETE'
                 })
                 .then(response => response.json())
@@ -457,7 +457,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         harga: formData.get('editHarga')
                     };
 
-                    fetch(`http://localhost:3000/api/drink/${drink.id}`, {
+                    fetch(`https://epicurean-backend-umber.vercel.app/api/drink/${drink.id}`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
@@ -501,7 +501,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Fungsi untuk mengambil dan menampilkan daftar wisata kuliner
     function fetchWisataKuliner() {
-        fetch('http://localhost:3000/api/listallwisatakuliner')
+        fetch('https://epicurean-backend-umber.vercel.app/api/listallwisatakuliner')
             .then(response => response.json())
             .then(data => {
                 data.forEach(wisata => {
@@ -527,7 +527,7 @@ document.addEventListener("DOMContentLoaded", function() {
         };
 
         const wisata_kuliner_id = selectWisataKuliner.value;
-        fetch(`http://localhost:3000/api/wisatakuliner/${wisata_kuliner_id}/review`, {
+        fetch(`https://epicurean-backend-umber.vercel.app/api/wisatakuliner/${wisata_kuliner_id}/review`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -560,7 +560,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Fungsi untuk menampilkan daftar ulasan berdasarkan wisata kuliner yang dipilih
     function displayReviews() {
         const selectedId = selectWisataKuliner.value;
-        fetch(`http://localhost:3000/api/wisatakuliner/${selectedId}/reviews`)
+        fetch(`https://epicurean-backend-umber.vercel.app/api/wisatakuliner/${selectedId}/reviews`)
             .then(response => response.json())
             .then(data => {
                 reviewList.innerHTML = '';
@@ -585,7 +585,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Fungsi untuk menghapus satu ulasan
     function deleteReview(reviewId) {
-        fetch(`http://localhost:3000/api/review/${reviewId}`, {
+        fetch(`https://epicurean-backend-umber.vercel.app/api/review/${reviewId}`, {
             method: 'DELETE'
         })
         .then(response => response.json())
@@ -598,7 +598,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Fungsi untuk menghapus semua ulasan berdasarkan wisata kuliner
     function deleteAllReviewsByWisataKulinerId(wisata_kuliner_id) {
-        fetch(`http://localhost:3000/api/wisatakuliner/${wisata_kuliner_id}/reviews`, {
+        fetch(`https://epicurean-backend-umber.vercel.app/api/wisatakuliner/${wisata_kuliner_id}/reviews`, {
             method: 'DELETE'
         })
         .then(response => response.json())
@@ -617,7 +617,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fungsi untuk menampilkan daftar artikel
     function fetchArticles() {
-        fetch('http://localhost:3000/api/artikel')
+        fetch('https://epicurean-backend-umber.vercel.app/api/artikel')
             .then(response => response.json())
             .then(data => {
                 articleList.innerHTML = '';
@@ -642,7 +642,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         const formData = new FormData(addArticleForm);
 
-        fetch('http://localhost:3000/api/artikel', {
+        fetch('https://epicurean-backend-umber.vercel.app/api/artikel', {
             method: 'POST',
             body: formData
         })
@@ -657,7 +657,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fungsi untuk menghapus artikel
     window.deleteArticle = function(articleId) {
-        fetch(`http://localhost:3000/api/artikel/${articleId}`, {
+        fetch(`https://epicurean-backend-umber.vercel.app/api/artikel/${articleId}`, {
             method: 'DELETE'
         })
         .then(response => response.json())
