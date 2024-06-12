@@ -487,3 +487,187 @@ document.addEventListener("DOMContentLoaded", function() {
             // Panggil fungsi untuk mengambil dan menampilkan daftar wisata kuliner saat halaman dimuat
             fetchWisataKuliner();
         });
+
+// ! CMS REVIEW
+
+document.addEventListener("DOMContentLoaded", function() {
+    const selectWisataKuliner = document.getElementById('selectWisataKuliner3');
+    const addReviewForm = document.getElementById('addReviewForm');
+    const reviewList = document.getElementById('reviewList');
+    const deleteAllReviewsBtn = document.getElementById('deleteAllReviews');
+
+    // Ambil dan tampilkan daftar wisata kuliner saat halaman dimuat
+    fetchWisataKuliner();
+
+    // Fungsi untuk mengambil dan menampilkan daftar wisata kuliner
+    function fetchWisataKuliner() {
+        fetch('http://localhost:3000/api/listallwisatakuliner')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(wisata => {
+                    const option = document.createElement('option');
+                    option.value = wisata.id;
+                    option.textContent = wisata.nama_tempat;
+                    selectWisataKuliner.appendChild(option);
+                });
+                // Panggil fungsi untuk menampilkan ulasan saat wisata kuliner dipilih
+                selectWisataKuliner.addEventListener('change', displayReviews);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Tambahkan event listener untuk menambah ulasan baru
+    addReviewForm.addEventListener('submit', event => {
+        event.preventDefault();
+        const formData = new FormData(addReviewForm);
+        const newData = {
+            nama_pengulas: formData.get('namaPengulas'),
+            ulasan: formData.get('ulasan'),
+            rating: formData.get('rating')
+        };
+
+        const wisata_kuliner_id = selectWisataKuliner.value;
+        fetch(`http://localhost:3000/api/wisatakuliner/${wisata_kuliner_id}/review`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+            displayReviews();
+            addReviewForm.reset(); // Reset form setelah ulasan ditambahkan
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+    // Tambahkan event listener untuk menghapus satu ulasan
+    reviewList.addEventListener('click', event => {
+        if (event.target.tagName === 'BUTTON') {
+            const reviewId = event.target.dataset.id;
+            deleteReview(reviewId);
+        }
+    });
+
+    // Event listener untuk menghapus semua ulasan
+    deleteAllReviewsBtn.addEventListener('click', () => {
+        const wisata_kuliner_id = selectWisataKuliner.value;
+        deleteAllReviewsByWisataKulinerId(wisata_kuliner_id);
+    });
+
+    // Fungsi untuk menampilkan daftar ulasan berdasarkan wisata kuliner yang dipilih
+    function displayReviews() {
+        const selectedId = selectWisataKuliner.value;
+        fetch(`http://localhost:3000/api/wisatakuliner/${selectedId}/reviews`)
+            .then(response => response.json())
+            .then(data => {
+                reviewList.innerHTML = '';
+                if (data.length === 0) {
+                    const li = document.createElement('li');
+                    li.textContent = 'Belum ada ulasan untuk wisata kuliner ini.';
+                    reviewList.appendChild(li);
+                } else {
+                    data.forEach(review => {
+                        const li = document.createElement('li');
+                        li.textContent = `${review.nama_pengulas}: ${review.ulasan} - Rating: ${review.rating}`;
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.textContent = 'Hapus';
+                        deleteBtn.dataset.id = review.id;
+                        li.appendChild(deleteBtn);
+                        reviewList.appendChild(li);
+                    });
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Fungsi untuk menghapus satu ulasan
+    function deleteReview(reviewId) {
+        fetch(`http://localhost:3000/api/review/${reviewId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+            displayReviews();
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Fungsi untuk menghapus semua ulasan berdasarkan wisata kuliner
+    function deleteAllReviewsByWisataKulinerId(wisata_kuliner_id) {
+        fetch(`http://localhost:3000/api/wisatakuliner/${wisata_kuliner_id}/reviews`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+            displayReviews();
+        })
+        .catch(error => console.error('Error:', error));
+    }
+});
+
+// ! CMS ARTIKEL 
+document.addEventListener('DOMContentLoaded', () => {
+    const addArticleForm = document.getElementById('addArticleForm');
+    const articleList = document.getElementById('articleList');
+
+    // Fungsi untuk menampilkan daftar artikel
+    function fetchArticles() {
+        fetch('http://localhost:3000/api/artikel')
+            .then(response => response.json())
+            .then(data => {
+                articleList.innerHTML = '';
+                data.forEach(article => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <h3>${article.judul}</h3>
+                        <p>${article.deskripsi}</p>
+                        <p>${article.isi}</p>
+                        <p>Penulis: ${article.penulis}</p>
+                        ${article.gambar_artikel ? `<img src="${article.gambar_artikel}" alt="${article.judul}" style="width: 200px;">` : ''}
+                        <button onclick="deleteArticle(${article.id})">Hapus</button>
+                    `;
+                    articleList.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Fungsi untuk menambahkan artikel baru
+    addArticleForm.addEventListener('submit', event => {
+        event.preventDefault();
+        const formData = new FormData(addArticleForm);
+
+        fetch('http://localhost:3000/api/artikel', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+            fetchArticles();
+            addArticleForm.reset(); // Reset form setelah artikel ditambahkan
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+    // Fungsi untuk menghapus artikel
+    window.deleteArticle = function(articleId) {
+        fetch(`http://localhost:3000/api/artikel/${articleId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+            fetchArticles();
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Panggil fungsi untuk menampilkan daftar artikel saat halaman dimuat
+    fetchArticles();
+});       
