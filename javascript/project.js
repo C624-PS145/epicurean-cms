@@ -198,3 +198,147 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+
+// ! CMS MAKANAN
+document.addEventListener('DOMContentLoaded', () => {
+    const selectWisataKuliner = document.getElementById('selectWisataKuliner');
+    const addFoodForm = document.getElementById('addFoodForm');
+    const editFoodForm = document.getElementById('editFoodForm');
+    const foodList = document.getElementById('foodList');
+
+    // Fungsi untuk mengambil dan menampilkan daftar wisata kuliner
+    function fetchWisataKuliner() {
+        fetch('http://localhost:3000/api/listallwisatakuliner')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(wisata => {
+                    const option = document.createElement('option');
+                    option.value = wisata.id;
+                    option.textContent = wisata.nama_tempat;
+                    selectWisataKuliner.appendChild(option);
+                });
+                // Panggil fungsi untuk menampilkan makanan saat wisata kuliner dipilih
+                selectWisataKuliner.addEventListener('change', displayFoods);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Tambahkan event listener untuk menambahkan makanan
+    addFoodForm.addEventListener('submit', event => {
+        event.preventDefault();
+        const formData = new FormData(addFoodForm);
+        const newData = {
+            wisata_kuliner_id: selectWisataKuliner.value,
+            nama_makanan: formData.get('namaMakanan'),
+            harga: formData.get('harga')
+        };
+
+        fetch(`http://localhost:3000/api/wisatakuliner/${newData.wisata_kuliner_id}/food`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+            displayFoods();
+            addFoodForm.reset(); // Reset form setelah makanan ditambahkan
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+    // Fungsi untuk menampilkan daftar makanan berdasarkan wisata kuliner yang dipilih
+    function displayFoods() {
+    const selectedId = selectWisataKuliner.value;
+    fetch(`http://localhost:3000/api/wisatakuliner/${selectedId}/foods`)
+        .then(response => response.json())
+        .then(data => {
+            foodList.innerHTML = '';
+            if (data.length === 0) {
+                const li = document.createElement('li');
+                li.textContent = 'Makanan masih kosong.';
+                foodList.appendChild(li);
+            } else {
+                data.forEach(food => {
+                    const li = document.createElement('li');
+                    li.textContent = `${food.nama_makanan} - Rp ${food.harga}`;
+                    const updateButton = document.createElement('button');
+                    updateButton.textContent = 'Edit';
+                    updateButton.addEventListener('click', () => fillEditFormAndShow(food));
+                    li.appendChild(updateButton);
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.addEventListener('click', () => deleteFood(food.id));
+                    li.appendChild(deleteButton);
+                    foodList.appendChild(li);
+                });
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function deleteFood(foodId) {
+    fetch(`http://localhost:3000/api/food/${foodId}`, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message);
+        displayFoods();
+    })
+    .catch(error => console.error('Error:', error));
+    }
+
+    // Fungsi untuk mengisi form pengeditan dengan data makanan yang akan diupdate
+    function fillEditFormAndShow(food) {
+        const editNamaMakananInput = document.getElementById('editNamaMakanan');
+        const editHargaInput = document.getElementById('editHarga');
+        editNamaMakananInput.value = food.nama_makanan;
+        editHargaInput.value = food.harga;
+
+        // Sembunyikan form tambah makanan
+        addFoodForm.style.display = 'none';
+        // Tampilkan form pengeditan
+        editFoodForm.style.display = 'block';
+
+        // Tambahkan event listener untuk form pengeditan
+        editFoodForm.addEventListener('submit', event => {
+            event.preventDefault();
+            const formData = new FormData(editFoodForm);
+            const updatedData = {
+                nama_makanan: formData.get('editNamaMakanan'),
+                harga: formData.get('editHarga')
+            };
+
+            fetch(`http://localhost:3000/api/food/${food.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+                displayFoods();
+                // Kembali tampilkan form tambah makanan dan sembunyikan form pengeditan
+                addFoodForm.style.display = 'block';
+                editFoodForm.style.display = 'none';
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        // Tambahkan event listener untuk tombol Batal
+        const cancelEditButton = document.getElementById('cancelEdit');
+        cancelEditButton.addEventListener('click', () => {
+            // Kembali tampilkan form tambah makanan dan sembunyikan form pengeditan
+            addFoodForm.style.display = 'block';
+            editFoodForm.style.display = 'none';
+        });
+    }
+
+    // Panggil fungsi untuk mengambil dan menampilkan daftar wisata kuliner saat halaman dimuat
+    fetchWisataKuliner();
+});
