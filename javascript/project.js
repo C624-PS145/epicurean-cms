@@ -342,3 +342,148 @@ document.addEventListener('DOMContentLoaded', () => {
     // Panggil fungsi untuk mengambil dan menampilkan daftar wisata kuliner saat halaman dimuat
     fetchWisataKuliner();
 });
+
+// ! CMS Minuman 
+document.addEventListener("DOMContentLoaded", function() {
+    const selectWisataKuliner = document.getElementById('selectWisataKuliner2');
+    const addDrinkForm = document.getElementById('addDrinkForm');
+    const editDrinkForm = document.getElementById('editDrinkForm');
+    const drinkList = document.getElementById('drinkList');
+
+            // Fungsi untuk mengambil dan menampilkan daftar wisata kuliner
+            function fetchWisataKuliner() {
+                fetch('http://localhost:3000/api/listallwisatakuliner')
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(wisata => {
+                            const option = document.createElement('option');
+                            option.value = wisata.id;
+                            option.textContent = wisata.nama_tempat;
+                            selectWisataKuliner.appendChild(option);
+                        });
+                        // Panggil fungsi untuk menampilkan minuman saat wisata kuliner dipilih
+                        selectWisataKuliner.addEventListener('change', displayDrinks);
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            // Tambahkan event listener untuk menambahkan minuman
+            addDrinkForm.addEventListener('submit', event => {
+                event.preventDefault();
+                const formData = new FormData(addDrinkForm);
+                const newData = {
+                    wisata_kuliner_id: selectWisataKuliner.value,
+                    nama_minuman: formData.get('namaMinuman'),
+                    harga: formData.get('harga')
+                };
+
+                fetch(`http://localhost:3000/api/wisatakuliner/${newData.wisata_kuliner_id}/drink`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                    displayDrinks();
+                    addDrinkForm.reset(); // Reset form setelah minuman ditambahkan
+                })
+                .catch(error => console.error('Error:', error));
+            });
+
+            // Fungsi untuk menampilkan daftar minuman berdasarkan wisata kuliner yang dipilih
+            function displayDrinks() {
+                const selectedId = selectWisataKuliner.value;
+                fetch(`http://localhost:3000/api/wisatakuliner/${selectedId}/drinks`)
+                    .then(response => response.json())
+                    .then(data => {
+                        drinkList.innerHTML = '';
+                        if (data.length === 0) {
+                            const li = document.createElement('li');
+                            li.textContent = 'Minuman masih kosong.';
+                            drinkList.appendChild(li);
+                        } else {
+                            data.forEach(drink => {
+                                const li = document.createElement('li');
+                                li.textContent = `${drink.nama_minuman} - Rp ${drink.harga}`;
+                                const updateButton = document.createElement('button');
+                                updateButton.textContent = 'Edit';
+                                updateButton.addEventListener('click', () => fillEditFormAndShow(drink));
+                                li.appendChild(updateButton);
+                                const deleteButton = document.createElement('button');
+                                deleteButton.textContent = 'Delete';
+                                deleteButton.addEventListener('click', () => deleteDrink(drink.id));
+                                li.appendChild(deleteButton);
+                                drinkList.appendChild(li);
+                            });
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            // Fungsi untuk menghapus minuman
+            function deleteDrink(drinkId) {
+                fetch(`http://localhost:3000/api/drink/${drinkId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                    displayDrinks();
+                })
+                .catch(error => console.error('Error:', error));
+            }
+
+            // Fungsi untuk mengisi form pengeditan dengan data minuman yang akan diupdate
+            function fillEditFormAndShow(drink) {
+                const editNamaMinumanInput = document.getElementById('editNamaMinuman');
+                const editHargaInput = document.getElementById('editHarga');
+                editNamaMinumanInput.value = drink.nama_minuman;
+                editHargaInput.value = drink.harga;
+
+                // Sembunyikan form tambah minuman
+                addDrinkForm.style.display = 'none';
+                // Tampilkan form pengeditan
+                editDrinkForm.style.display = 'block';
+
+                // Tambahkan event listener untuk form pengeditan
+                editDrinkForm.addEventListener('submit', event => {
+                    event.preventDefault();
+                    const formData = new FormData(editDrinkForm);
+                    const updatedData = {
+                        nama_minuman: formData.get('editNamaMinuman'),
+                        harga: formData.get('editHarga')
+                    };
+
+                    fetch(`http://localhost:3000/api/drink/${drink.id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(updatedData)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data.message);
+                        displayDrinks();
+                        // Kembali tampilkan form tambah minuman dan sembunyikan form pengeditan
+                        addDrinkForm.style.display = 'block';
+                        editDrinkForm.style.display = 'none';
+                    })
+                    .catch(error => console.error('Error:', error));
+                });
+
+                // Tambahkan event listener untuk tombol Batal
+                const cancelEditButton = document.getElementById('cancelEdit');
+                cancelEditButton.addEventListener('click', () => {
+                    // Kembali tampilkan form tambah minuman dan sembunyikan form pengeditan
+                    addDrinkForm.style.display = 'block';
+                    editDrinkForm.style.display = 'none';
+                });
+            }
+
+            // Panggil fungsi untuk mengambil dan menampilkan daftar wisata kuliner saat halaman dimuat
+            fetchWisataKuliner();
+        });
