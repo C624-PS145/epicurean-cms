@@ -68,7 +68,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Periksa status login saat halaman dimuat
     if (!localStorage.getItem('isLoggedIn')) {
-        window.location.href = './../index.html';
+        window.location.replace('./../index.html');
         return;
     }
 
@@ -84,14 +84,20 @@ document.addEventListener("DOMContentLoaded", function() {
         sessionStorage.clear(); // Bersihkan semua data dari sessionStorage
 
         // Redirect ke halaman login setelah logout
-        window.location.href = './../index.html';
+        window.location.replace('./../index.html');
     });
 
     // Blokir navigasi maju dan mundur menggunakan popstate
     window.addEventListener('popstate', function(event) {
         if (!localStorage.getItem('isLoggedIn')) {
-            window.location.href = './../index.html';
+            window.location.replace('./../index.html');
         }
+    });
+
+    // Tambahkan history state untuk mencegah navigasi kembali
+    history.pushState(null, null, location.href);
+    window.addEventListener('popstate', function () {
+        history.pushState(null, null, location.href);
     });
 });
 
