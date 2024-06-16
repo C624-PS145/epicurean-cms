@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Periksa status login saat halaman dimuat
     if (localStorage.getItem('isLoggedIn')) {
-        window.location.href = './../pages/project.html';
+        window.location.replace('./../pages/project.html');
         return;
     }
 
@@ -33,7 +33,8 @@ document.addEventListener("DOMContentLoaded", function() {
             if (response.ok) {
                 // Simpan status login ke localStorage
                 localStorage.setItem('isLoggedIn', true);
-                window.location.href = './../pages/project.html';
+                // Hapus history setelah login
+                window.location.replace('./../pages/project.html');
             } else if (response.status === 401) {
                 errorMsg.textContent = 'Username atau password salah.';
                 errorMsg.style.display = 'block';
@@ -47,4 +48,39 @@ document.addEventListener("DOMContentLoaded", function() {
             errorMsg.style.display = 'block';
         }
     });
+
+    // Fungsi untuk logout
+    function logout() {
+        // Hapus status login dari localStorage
+        localStorage.removeItem('isLoggedIn');
+        // Redirect ke halaman login
+        window.location.href = './../index.html';
+    }
+
+    // Periksa status login di halaman project
+    if (window.location.pathname.endsWith('project.html')) {
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = './../index.html';
+        }
+    }
+
+    // Tambahkan listener untuk menangani event logout
+    document.getElementById('logoutButton')?.addEventListener('click', logout);
+
+    // Blokir navigasi maju dan mundur menggunakan popstate
+    window.addEventListener('popstate', function(event) {
+        if (localStorage.getItem('isLoggedIn')) {
+            history.pushState(null, null, window.location.href);
+        } else {
+            window.location.href = './../index.html';
+        }
+    });
+
+    // Tambahkan tombol logout di halaman project (hanya contoh)
+    if (window.location.pathname.endsWith('project.html')) {
+        const logoutButton = document.createElement('button');
+        logoutButton.id = 'logoutButton';
+        logoutButton.textContent = 'Logout';
+        document.body.appendChild(logoutButton);
+    }
 });
