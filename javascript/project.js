@@ -86,7 +86,15 @@ document.addEventListener("DOMContentLoaded", function() {
         // Redirect ke halaman login setelah logout
         window.location.href = './../index.html';
     });
+
+    // Blokir navigasi maju dan mundur menggunakan popstate
+    window.addEventListener('popstate', function(event) {
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = './../index.html';
+        }
+    });
 });
+
 
 
 
