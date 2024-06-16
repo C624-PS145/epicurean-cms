@@ -66,6 +66,12 @@
 // project.js
 
 document.addEventListener("DOMContentLoaded", function() {
+    // Periksa status login saat halaman dimuat
+    if (!localStorage.getItem('isLoggedIn')) {
+        window.location.href = './../index.html';
+        return;
+    }
+
     // Ambil tombol logout
     const logoutBtn = document.getElementById('logoutBtn');
 
@@ -73,10 +79,16 @@ document.addEventListener("DOMContentLoaded", function() {
     logoutBtn.addEventListener('click', function() {
         // Hapus status login dari localStorage
         localStorage.removeItem('isLoggedIn');
+        // Hapus data lain yang mungkin terkait dengan sesi pengguna
+        localStorage.removeItem('userToken'); // Contoh penghapusan token
+        sessionStorage.clear(); // Bersihkan semua data dari sessionStorage
+
         // Redirect ke halaman login setelah logout
         window.location.href = './../index.html';
     });
 });
+
+
 
 document.addEventListener("DOMContentLoaded", function() {
     // Function to show alert

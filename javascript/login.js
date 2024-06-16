@@ -49,24 +49,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Fungsi untuk logout
-    function logout() {
-        // Hapus status login dari localStorage
-        localStorage.removeItem('isLoggedIn');
-        // Redirect ke halaman login
-        window.location.href = './../index.html';
-    }
-
-    // Periksa status login di halaman project
-    if (window.location.pathname.endsWith('project.html')) {
-        if (!localStorage.getItem('isLoggedIn')) {
-            window.location.href = './../index.html';
-        }
-    }
-
-    // Tambahkan listener untuk menangani event logout
-    document.getElementById('logoutButton')?.addEventListener('click', logout);
-
     // Blokir navigasi maju dan mundur menggunakan popstate
     window.addEventListener('popstate', function(event) {
         if (localStorage.getItem('isLoggedIn')) {
@@ -75,12 +57,4 @@ document.addEventListener("DOMContentLoaded", function() {
             window.location.href = './../index.html';
         }
     });
-
-    // Tambahkan tombol logout di halaman project (hanya contoh)
-    if (window.location.pathname.endsWith('project.html')) {
-        const logoutButton = document.createElement('button');
-        logoutButton.id = 'logoutButton';
-        logoutButton.textContent = 'Logout';
-        document.body.appendChild(logoutButton);
-    }
 });
